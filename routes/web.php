@@ -57,14 +57,17 @@ Auth::routes(['verify' => true]);
 Route::get('/privacy', function () {
     return view('information.privacy');
 })->name('privacy');
+
 Route::get('/imprint', function () {
     return view('information.imprint');
 })->name('imprint');
+
 Route::get('/tos', function () {
     return view('information.tos');
 })->name('tos');
 
 Route::middleware(['auth', 'checkSuspended'])->group(function () {
+
     //resend verification email
     Route::get('/email/verification-notification', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
@@ -173,12 +176,9 @@ Route::middleware(['auth', 'checkSuspended'])->group(function () {
         Route::get('payments', [PaymentController::class, 'index'])->name('payments.index');
 
         //settings
-
-
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
         Route::post('settings/icons', [SettingsController::class, 'updateIcons'])->name('settings.updateIcons');
-
 
         //invoices
         Route::get('invoices/download-invoices', [InvoiceController::class, 'downloadAllInvoices'])->name('invoices.downloadAllInvoices');
@@ -228,12 +228,9 @@ Route::middleware(['auth', 'checkSuspended'])->group(function () {
         Route::post('ticket/blacklist/change/{id}', [AdminTicketsController::class, 'blacklistChange'])->name('ticket.blacklist.change');
         Route::get('ticket/blacklist/datatable', [AdminTicketsController::class, 'dataTableBlacklist'])->name('ticket.blacklist.datatable');
 
-
         Route::get('ticket/category/datatable', [TicketCategoryController::class, 'datatable'])->name('ticket.category.datatable');
         Route::resource("ticket/category", TicketCategoryController::class, ['as' => 'ticket']);
     });
-
-
 
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
